@@ -177,7 +177,7 @@ class BlobRestProxy extends ServiceRestProxy implements IBlob
      * 
      * @return string
      */
-    private function _getBlobUrl($container, $blob)
+    public function _getBlobUrl($container, $blob)
     {
         $encodedBlob = urlencode($blob);
         // Unencode the forward slashes to match what the server expects.

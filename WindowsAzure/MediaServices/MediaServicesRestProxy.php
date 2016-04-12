@@ -1033,7 +1033,7 @@ class MediaServicesRestProxy extends ServiceRestProxy implements IMediaServices
      */
     private function _uploadAssetFileFromResource($url, $resource)
     {
-        $blockSize = self::MAX_BLOCK_SIZE;
+        $blockSize = 1024;
         $blockIds = array();
 
         $blockContent = fread($resource, $blockSize);
@@ -1049,6 +1049,12 @@ class MediaServicesRestProxy extends ServiceRestProxy implements IMediaServices
         $this->_uploadBlock($url, $blockId, $blockContent);
 
         while (!feof($resource)) {
+            $i=0;
+            ini_set('max_execution_time', 80);
+            flush();
+            ob_flush();
+            echo " -----------------".$i++."------------------------<br>";
+
             $blockContent = fread($resource, $blockSize);
 
             $blockId = $this->_generateBlockId(count($blockIds));
