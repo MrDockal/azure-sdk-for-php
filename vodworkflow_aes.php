@@ -64,30 +64,30 @@ echo "Azure SDK for PHP - AES Dynamic Encryption Sample\r\n";
 
 // 0 - set up the MediaServicesService object to call into the Media Services REST API.
 $restProxy = ServicesBuilder::getInstance()->createMediaServicesService(new MediaServicesSettings($account, $secret));
-ini_set('max_execution_time', 300);
+
 // 1 - Upload the mezzanine
 $sourceAsset = uploadFileAndCreateAsset($restProxy, $mezzanineFileName);
-ini_set('max_execution_time', 300);
+
 // 2 - encode the output asset
 $encodedAsset = encodeToAdaptiveBitrateMP4Set($restProxy, $sourceAsset);
-ini_set('max_execution_time', 300);
+
 // 3 - Create Content Key
 $contentKey = createEnvelopeTypeContentKey($restProxy, $encodedAsset);
-ini_set('max_execution_time', 300);
+
 // 4 - Create the ContentKey Authorization Policy
 $tokenTemplateString = null;
-if ($tokenRestriction) {ini_set('max_execution_time', 300);
+if ($tokenRestriction) {
     $tokenTemplateString = addTokenRestrictedAuthorizationPolicy($restProxy, $contentKey, $tokenType);
 } else {
     addOpenAuthorizationPolicy($restProxy, $contentKey);
 }
-ini_set('max_execution_time', 300);
+
 // 5 - Create the AssetDeliveryPolicy
 createAssetDeliveryPolicy($restProxy, $encodedAsset, $contentKey);
-ini_set('max_execution_time', 300);
+
 // 6 - Publish
 publishEncodedAsset($restProxy, $encodedAsset);
-ini_set('max_execution_time', 300);
+
 // 7 - Generate Test Token
 if ($tokenRestriction) {
     generateTestToken($tokenTemplateString, $contentKey);
@@ -171,7 +171,6 @@ function encodeToAdaptiveBitrateMP4Set($restProxy, $asset)
     while ($result != Job::STATE_FINISHED && $result != Job::STATE_ERROR && $result != Job::STATE_CANCELED) {
         echo "Job status: {$jobStatusMap[$result]}\r\n";
         sleep(5);
-        ini_set('max_execution_time', 300);
         $result = $restProxy->getJobStatus($job);
     }
 
