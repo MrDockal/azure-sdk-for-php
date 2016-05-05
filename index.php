@@ -18,6 +18,8 @@ use WindowsAzure\Common\ServiceException;
 use WindowsAzure\Common\Internal\ServiceManagementSettings;
 use WindowsAzure\Common\Internal\MediaServicesSettings;
 use WindowsAzure\Blob\Models\CopyBlobOptions;
+use WindowsAzure\Blob\Models\Block;
+use WindowsAzure\Blob\Models\BlobBlockType;
 
 require_once "WindowsAzure/WindowsAzure.php";
 
@@ -123,8 +125,7 @@ if (isset($_GET['uploadVideo'])) {
 
 }
 
-use WindowsAzure\Blob\Models\Block;
-use WindowsAzure\Blob\Models\BlobBlockType;
+
 
 
 if (isset($_GET['uploadLargeVideo'])) {
@@ -134,8 +135,8 @@ if (isset($_GET['uploadLargeVideo'])) {
         $instance = ServicesBuilder::getInstance();
         $blobRestProxy = $instance->createBlobService($connectionString);
         $containerName = "mycontainer";
-        $blobName = "Azure-Video2";
-        $handler = fopen("Azure-Video.wmv", "r");
+        $blobName = "lyzak.mp4";
+        $handler = fopen("lyzak.mp4", "r");
         $counter = 1;
         $blockIds = array();
         while (!feof($handler)) {

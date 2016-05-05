@@ -55,9 +55,9 @@ use WindowsAzure\MediaServices\Templates\WidevineMessageSerializer;
 // Settings
 ini_set('max_execution_time', 300);
 // Settings
-$account = "hugjanmediaservices";
-$secret = "rP7QLjv85WmnoCYa4WEXp6We6QWpbkYO2zpWjwgb8Yg=";
-$mezzanineFileName = "Azure-Video.wmv";
+$account = "hugjanmediaservice";
+$secret = "hMzAk4Ri5HAjoQigPZQdf4mTfvdPsukZqLenQR7f+UI=";
+$mezzanineFileName = "brown3.avi";
 $tokenRestriction = false;
 $tokenType = TokenType::JWT;
 
@@ -89,9 +89,9 @@ createAssetDeliveryPolicy($restProxy, $encodedAsset, $contentKey);
 publishEncodedAsset($restProxy, $encodedAsset);
 
 // 7 - Generate Test Token
-//if ($tokenRestriction) {
-//    generateTestToken($tokenTemplateString, $contentKey);
-//}
+if ($tokenRestriction) {
+    generateTestToken($tokenTemplateString, $contentKey);
+}
 
 // Done
 print "Done!";
