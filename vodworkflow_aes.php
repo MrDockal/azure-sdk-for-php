@@ -57,41 +57,75 @@ date_default_timezone_set('America/Los_Angeles');
 $account = 'hugjanmediaservice';
 $secret = 'hMzAk4Ri5HAjoQigPZQdf4mTfvdPsukZqLenQR7f+UI=';
 $mezzanineFileName = 'brown3.avi';
-$tokenRestriction = true;
+$tokenRestriction = false;
 $tokenType = TokenType::JWT;
 
 echo "Azure SDK for PHP - AES Dynamic Encryption Sample\r\n";
-
+ini_set('max_execution_time', 300);
 // 0 - set up the MediaServicesService object to call into the Media Services REST API.
+
+/**
+ * @param $restProxy \WindowsAzure\MediaServices\MediaServicesRestProxy
+ */
 $restProxy = ServicesBuilder::getInstance()->createMediaServicesService(new MediaServicesSettings($account, $secret));
 
-// 1 - Upload the mezzanine
+$list=$restProxy->getAssetList();
+
+
+//foreach($list as $asset){
+//    $locators=$restProxy->getAssetLocators($asset);
+////    var_dump($locators);
+//    foreach($locators as $locator){
+//        // 6.1 Get the .ISM AssetFile
+//        $files = $restProxy->getAssetAssetFileList($asset);
+//        $manifestFile = null;
+//
+//        foreach ($files as $file) {
+//            if (endsWith(strtolower($file->getName()), '.ism')) {
+//                $manifestFile = $file;
+//            }
+//        }
+//
+//        if ($manifestFile == null) {
+//            echo "Unable to found the manifest file\r\n";
+//            exit(-1);
+//        }
+//
+//
+//        // 6.4 Create a Smooth Streaming base URL
+//        echo $stremingUrl = $locator->getPath().$manifestFile->getName().'/manifest <br>';
+//    }
+//
+//}
+//var_dump($list);
+//ini_set('max_execution_time', 300);
+//// 1 - Upload the mezzanine
 $sourceAsset = uploadFileAndCreateAsset($restProxy, $mezzanineFileName);
-
-// 2 - encode the output asset
-$encodedAsset = encodeToAdaptiveBitrateMP4Set($restProxy, $sourceAsset);
-
-// 3 - Create Content Key
-$contentKey = createEnvelopeTypeContentKey($restProxy, $encodedAsset);
-
-// 4 - Create the ContentKey Authorization Policy
-$tokenTemplateString = null;
-if ($tokenRestriction) {
-    $tokenTemplateString = addTokenRestrictedAuthorizationPolicy($restProxy, $contentKey, $tokenType);
-} else {
-    addOpenAuthorizationPolicy($restProxy, $contentKey);
-}
-
-// 5 - Create the AssetDeliveryPolicy
-createAssetDeliveryPolicy($restProxy, $encodedAsset, $contentKey);
-
-// 6 - Publish
-publishEncodedAsset($restProxy, $encodedAsset);
-
-// 7 - Generate Test Token
-if ($tokenRestriction) {
-    generateTestToken($tokenTemplateString, $contentKey);
-}
+//ini_set('max_execution_time', 300);
+//// 2 - encode the output asset
+//$encodedAsset = encodeToAdaptiveBitrateMP4Set($restProxy, $sourceAsset);
+//ini_set('max_execution_time', 300);
+//// 3 - Create Content Key
+//$contentKey = createEnvelopeTypeContentKey($restProxy, $encodedAsset);
+//ini_set('max_execution_time', 300);
+//// 4 - Create the ContentKey Authorization Policy
+//$tokenTemplateString = null;
+//if ($tokenRestriction) {
+//    $tokenTemplateString = addTokenRestrictedAuthorizationPolicy($restProxy, $contentKey, $tokenType);
+//} else {
+//    addOpenAuthorizationPolicy($restProxy, $contentKey);
+//}
+//ini_set('max_execution_time', 300);
+//// 5 - Create the AssetDeliveryPolicy
+//createAssetDeliveryPolicy($restProxy, $encodedAsset, $contentKey);
+//ini_set('max_execution_time', 300);
+//// 6 - Publish
+//publishEncodedAsset($restProxy, $encodedAsset);
+//ini_set('max_execution_time', 300);
+//// 7 - Generate Test Token
+//if ($tokenRestriction) {
+//    generateTestToken($tokenTemplateString, $contentKey);
+//}
 
 // Done
 echo 'Done!';
@@ -100,6 +134,11 @@ echo 'Done!';
 // Helper methods //
 ////////////////////
 
+/**
+ * @param $restProxy
+ * @param $mezzanineFileName
+ * @return Asset
+ */
 function uploadFileAndCreateAsset($restProxy, $mezzanineFileName)
 {
     // 1.1. create an empty "Asset" by specifying the name
@@ -110,6 +149,8 @@ function uploadFileAndCreateAsset($restProxy, $mezzanineFileName)
 
     echo 'Asset created: name='.$asset->getName().' id='.$assetId."\r\n";
 
+
+    exit();
     // 1.3. create an Access Policy with Write permissions
     $accessPolicy = new AccessPolicy('UploadAccessPolicy');
     $accessPolicy->setDurationInMinutes(60.0);

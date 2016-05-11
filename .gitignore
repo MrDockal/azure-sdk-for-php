@@ -12,3 +12,5 @@ vendor
 nbproject
 phpcs-checkstyle.tmp
 composer.phar
+.idea/modules.xml
+.idea/

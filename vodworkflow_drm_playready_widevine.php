@@ -67,7 +67,7 @@ date_default_timezone_set('America/Los_Angeles');
 $account = 'hugjanmediaservice';
 $secret = 'hMzAk4Ri5HAjoQigPZQdf4mTfvdPsukZqLenQR7f+UI=';
 $mezzanineFileName = 'Azure-Video.wmv';
-$tokenRestriction = false;
+$tokenRestriction = true;
 $tokenType = TokenType::JWT;
 
 echo "Azure SDK for PHP - PlayReady + Widevine Dynamic Encryption Sample\r\n";
